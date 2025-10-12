@@ -12,9 +12,7 @@ def get_fernet():
     return Fernet(FERNET_KEY.encode())
 
 def encrypt(plaintext: str) -> str:
-    f = get_fernet()
-    return f.encrypt(plaintext.encode()).decode()
+    return get_fernet().encrypt(plaintext.encode()).decode()
 
 def decrypt(token: str) -> str:
-    f = get_fernet()
-    return f.decrypt(token.encode()).decode()
+    return get_fernet().decrypt(token.encode()).decode()

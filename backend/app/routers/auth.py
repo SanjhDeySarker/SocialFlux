@@ -1,5 +1,4 @@
-# app/routers/auth.py
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from ..database import SessionLocal
 from .. import models, auth
@@ -20,12 +19,12 @@ class RegisterIn(BaseModel):
 
 @router.post("/register")
 def register(data: RegisterIn, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.username == data.username).first()
-    if user:
-        raise HTTPException(status_code=400, detail="Username exists")
-    new = models.User(username=data.username, password_hash=auth.get_password_hash(data.password))
-    db.add(new)
+    existing = db.query(models.User).filter(models.User.username == data.username).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="Username already exists")
+    user = models.User(username=data.username, password_hash=auth.get_password_hash(data.password))
+    db.add(user)
     db.commit()
-    db.refresh(new)
-    token = auth.create_access_token(new.id)
+    db.refresh(user)
+    token = auth.create_access_token(user.id)
     return {"access_token": token, "token_type": "bearer"}

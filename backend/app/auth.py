@@ -1,4 +1,3 @@
-# app/auth.py
 from datetime import datetime, timedelta
 import jwt
 import os
@@ -21,6 +20,3 @@ def create_access_token(subject: str, expires_delta: timedelta | None = None):
     to_encode.update({"exp": expire})
     token = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return token
-
-def decode_token(token: str):
-    return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])

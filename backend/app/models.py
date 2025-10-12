@@ -1,5 +1,4 @@
-# app/models.py
-from sqlalchemy import Column, Integer, String, DateTime, Text, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Text, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from .database import Base
@@ -16,7 +15,7 @@ class User(Base):
 class SocialAccount(Base):
     __tablename__ = "social_accounts"
     id = Column(Integer, primary_key=True, index=True)
-    provider = Column(String(50))  # e.g. 'facebook', 'instagram'
+    provider = Column(String(50))
     account_id = Column(String(256))
     access_token_encrypted = Column(Text)
     user_id = Column(Integer, ForeignKey("users.id"))
@@ -28,7 +27,7 @@ class Post(Base):
     content = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
     scheduled_at = Column(DateTime, nullable=True)
-    status = Column(String(32), default="draft")  # draft, scheduled, published, failed
+    status = Column(String(32), default="draft")
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="posts")
-    provider = Column(String(50), nullable=True)  # optional
+    provider = Column(String(50), nullable=True)
