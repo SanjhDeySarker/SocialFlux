@@ -1,15 +1,14 @@
 import axios from "axios";
 
-const API = axios.create({
-  baseURL: "http://localhost:8080", // Backend FastAPI
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8000";
+
+const api = axios.create({
+  baseURL: API_URL,
 });
 
-// Test connection
-export const getRoot = () => API.get("/");
+export const registerUser = async (data) => api.post("/auth/register", data);
+export const loginUser = async (data) => api.post("/auth/login", data);
+export const schedulePost = async (data) => api.post("/posts/schedule", data);
+export const getMetrics = async () => api.get("/metrics");
 
-// Posts API
-export const createPost = (post) => API.post("/posts", post);
-export const getScheduledPosts = () => API.get("/posts/scheduled");
-
-// AI Chat API
-export const sendAIMessage = (message) => API.post("/ai/chat", { message });
+export default api;
