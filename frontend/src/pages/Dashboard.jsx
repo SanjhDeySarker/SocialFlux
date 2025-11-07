@@ -1,45 +1,39 @@
-import { motion } from "framer-motion";
-import PostEditor from "../components/PostEditor";
-import Scheduler from "../components/Scheduler";
-import AIChat from "../components/AIChat";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Dashboard() {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      className="grid grid-cols-1 md:grid-cols-2 gap-6"
-    >
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="bg-white p-5 rounded-xl shadow-md"
-      >
-        <h2 className="text-lg font-semibold mb-3">Create Post</h2>
-        <PostEditor />
-      </motion.div>
+    <div className="p-6">
+      <header className="flex justify-between items-center">
+        <h1 className="text-2xl font-semibold">SocialFlux Dashboard</h1>
+        <button
+          className="bg-red-500 text-white px-4 py-1 rounded"
+          onClick={() => {
+            logout();
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
+      </header>
 
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="bg-white p-5 rounded-xl shadow-md"
-      >
-        <h2 className="text-lg font-semibold mb-3">Schedule Posts</h2>
-        <Scheduler />
-      </motion.div>
-
-      <motion.div
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.4 }}
-        className="md:col-span-2 bg-white p-5 rounded-xl shadow-md"
-      >
-        <h2 className="text-lg font-semibold mb-3">AI Insights</h2>
-        <AIChat />
-      </motion.div>
-    </motion.div>
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          className="p-6 bg-white shadow rounded cursor-pointer hover:bg-gray-100"
+          onClick={() => navigate("/scheduler")}
+        >
+          Schedule Posts
+        </div>
+        <div
+          className="p-6 bg-white shadow rounded cursor-pointer hover:bg-gray-100"
+          onClick={() => navigate("/analytics")}
+        >
+          View Analytics
+        </div>
+      </div>
+    </div>
   );
 }
