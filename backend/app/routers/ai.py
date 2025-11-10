@@ -10,12 +10,15 @@ def analyze(data: dict):
     if not key:
         raise HTTPException(status_code=400, detail="Gemini API key missing")
 
-    # Replace this with the actual Gemini endpoint
-    url = "https://api.gemini.google.com/v1/chat"
-    headers = {"Authorization": f"Bearer {key}"}
     try:
-        r = requests.post(url, json={"prompt": query}, headers=headers, timeout=20)
-        r.raise_for_status()
-        return {"response": r.json().get("output", "No response")}
+        # Replace with actual Gemini endpoint
+        response = requests.post(
+            "https://api.gemini.google.com/v1/chat",
+            json={"prompt": query},
+            headers={"Authorization": f"Bearer {key}"},
+            timeout=20,
+        )
+        response.raise_for_status()
+        return {"response": response.json().get("output", "No AI response")}
     except Exception as e:
         return {"response": f"Error contacting Gemini API: {str(e)}"}
