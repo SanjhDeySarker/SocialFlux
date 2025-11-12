@@ -1,26 +1,54 @@
-import { MessageCircle, Calendar, User } from "lucide-react";
-import { motion } from "framer-motion";
+import { Menu, Sun, Moon } from "lucide-react";
+import { useState } from "react";
+import Sidebar from "./Sidebar";
+import useDarkMode from "../hooks/useDarkMode";
 
 export default function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [theme, setTheme] = useDarkMode();
+
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+
   return (
-    <motion.header
-      initial={{ y: -30, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      className="flex justify-between items-center px-6 py-3 bg-white shadow-sm"
-    >
+    <header className="bg-white dark:bg-gray-800 dark:text-gray-100 shadow-sm p-4 flex justify-between items-center sticky top-0 z-10">
       <div className="flex items-center gap-2">
-        <MessageCircle size={22} className="text-blue-600" />
-        <h1 className="text-xl font-semibold">SocialFlux</h1>
-      </div>
-      <div className="flex items-center gap-3">
-        <button className="flex items-center gap-2 px-3 py-1 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">
-          <Calendar size={16} /> New Post
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="md:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <Menu />
         </button>
-        <div className="p-1 rounded-full border">
-          <User size={20} />
-        </div>
+        <h1 className="text-lg font-semibold">SocialFlux Dashboard</h1>
       </div>
-    </motion.header>
+
+      {/* Right Section */}
+      <div className="flex items-center gap-3">
+        {/* Theme Toggle */}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+          title="Toggle theme"
+        >
+          {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+        </button>
+        <span className="hidden sm:inline text-sm opacity-80">
+          {theme === "dark" ? "Dark" : "Light"} Mode
+        </span>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 bg-black/40 z-50 md:hidden">
+          <div className="absolute left-0 top-0 h-full bg-white dark:bg-gray-800 w-64 shadow-lg">
+            <Sidebar />
+          </div>
+          <div
+            className="absolute inset-0"
+            onClick={() => setMobileOpen(false)}
+          ></div>
+        </div>
+      )}
+    </header>
   );
 }
