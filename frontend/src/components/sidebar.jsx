@@ -13,9 +13,9 @@ export default function Sidebar() {
   const { logout } = useAuth();
 
   return (
-    <aside className="w-64 bg-white shadow-md hidden md:flex flex-col justify-between">
+    <aside className="w-64 bg-white dark:bg-gray-800 dark:text-gray-200 shadow-md hidden md:flex flex-col justify-between">
       <div>
-        <div className="text-2xl font-bold text-blue-600 p-6 border-b">
+        <div className="text-2xl font-bold text-blue-600 p-6 border-b dark:border-gray-700">
           SocialFlux
         </div>
         <nav className="flex flex-col p-4 space-y-2">
@@ -27,7 +27,7 @@ export default function Sidebar() {
                 `flex items-center gap-3 p-2 rounded-md transition ${
                   isActive
                     ? "bg-blue-600 text-white"
-                    : "text-gray-700 hover:bg-blue-100"
+                    : "text-gray-700 dark:text-gray-200 hover:bg-blue-100 dark:hover:bg-gray-700"
                 }`
               }
             >
@@ -37,7 +37,7 @@ export default function Sidebar() {
           ))}
         </nav>
       </div>
-      <div className="p-4 border-t">
+      <div className="p-4 border-t dark:border-gray-700">
         <button
           onClick={logout}
           className="flex items-center gap-3 text-red-500 hover:text-red-700"
