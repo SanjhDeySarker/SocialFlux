@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { fetchCalendarPosts, updatePostDate } from "../api/calendar";
 import { useEffect, useState } from "react";
-import EditPostModal from "../components/EditPostModal";
+import EditPostModal from "../components/Editpostmodal";
 import toast from "react-hot-toast";
 
 const locales = {
